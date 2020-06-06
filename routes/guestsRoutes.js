@@ -4,6 +4,7 @@ const router = express.Router();
 const gcont = require('../controller/guests')
 const lcont = require('../controller/lodgings')
 router.use(bodyParser.json());
+const checkJwt = require('../config/jwt')
 
 /****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const lcont = require('../controller/lodgings')
 const gcont = require('../controller/guests')
+const checkJwt = require('../config/jwt')
 
 router.use(bodyParser.json());
 
