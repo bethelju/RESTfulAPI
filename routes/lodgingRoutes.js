@@ -11,14 +11,14 @@ router.use(bodyParser.json());
  * Description: Endpoint creates a particular lodging in the database
  * Parameter: JSON req body containing specifications for name, type, size of lodging
  ****************************************************************************************/
-router.post('/', function(req, res){
+router.post('/', checkJwt, function(req, res){
     if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
         res.status(400).send({"Error": "The requested property is missing attributes"});
     }
     else{
-        lcont.post_lodging(req.body.name, req.body.type, req.body.size)
+        lcont.post_lodging(req.body.name, req.body.type, req.body.size, req.user.sub)
         .then( key => {
-            return lcont.get_lodging_by_id(key.id)
+            return lcont.get_lodging_by_id(key.id, req.user.sub)
         }).then( result => {res.status(201).send(result[0])} );
     }
 });
@@ -27,8 +27,8 @@ router.post('/', function(req, res){
  * Description: Returns all the guests stored at a specified lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.get('/:id/guests', function(req, res){
-    lcont.get_lodging_by_id(req.params.id)
+router.get('/:id/guests', checkJwt, function(req, res){
+    lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then( result => {
         if(!result.length){
             throw "No matching lodging"
@@ -50,8 +50,8 @@ router.get('/:id/guests', function(req, res){
  * Description: Endpoint for returning a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.get('/:id', function(req, res){
-    lcont.get_lodging_by_id(req.params.id)
+router.get('/:id', checkJwt, function(req, res){
+    lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then((lodging) => {
         if(!lodging.length){
             res.status(404).json({"Error": "No lodging with this lodging_id exists"})
@@ -66,8 +66,8 @@ router.get('/:id', function(req, res){
  * Description: Endpoint for deleting a specified guest from a specified lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.delete('/:lid/guests/:gid', function(req, res){
-    lcont.get_lodging_by_id(req.params.lid)
+router.delete('/:lid/guests/:gid', checkJwt, function(req, res){
+    lcont.get_lodging_by_id(req.params.lid, req.user.sub)
     .then((lodging) => {
         if(!lodging.length){
             throw "No matching lodging/guest"
@@ -99,10 +99,9 @@ router.delete('/:lid/guests/:gid', function(req, res){
  * Description: Endpoint for placing a guest in a particular lodging in the database
  * Parameter: Lodging ID, Guest ID
  ****************************************************************************************/
-router.put('/:lid/guests/:gid', function(req, res){
-    lcont.get_lodging_by_id(req.params.lid)
+router.put('/:lid/guests/:gid', checkJwt, function(req, res){
+    lcont.get_lodging_by_id(req.params.lid, req.user.sub)
     .then((lodging) => {
-        console.log("1")
         if(!lodging.length){
             throw "No matching guest with that guest_id or lodging with that lodging_id"
         }
@@ -111,7 +110,6 @@ router.put('/:lid/guests/:gid', function(req, res){
         }
     })
     .then((guest) => {
-        console.log("2")
         if(!guest.length){
             throw "No matching guest with that guest_id or lodging with that lodging_id"
         }
@@ -119,11 +117,10 @@ router.put('/:lid/guests/:gid', function(req, res){
             throw "This guest is already assigned"
         }
         else{
-            console.log("Here!")
             return gcont.put_guest(req.params.lid, req.params.gid)
         }
     })
-    .then(key => {console.log("3");res.status(204).end()})
+    .then(key => {res.status(204).end()})
     .catch((err) => {
         if(err === "No matching guest with that guest_id or lodging with that lodging_id"){
             res.status(404).send({"Error": "The specified guest and/or lodging don’t exist"})
@@ -138,7 +135,7 @@ router.put('/:lid/guests/:gid', function(req, res){
  * Description: Endpoint for returning all lodgings currently in the database
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.get('/', function(req, res){
+router.get('/', checkJwt, function(req, res){
     const Lodgings = lcont.get_lodgings(req)
 	.then( (lodgings) => {
         res.status(200).json(lodgings);
@@ -149,19 +146,19 @@ router.get('/', function(req, res){
  * Description: Endpoint for completely editing a lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.put('/:id', function(req, res){
+router.put('/:id', checkJwt, function(req, res){
     if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
         res.status(400).send({"Error": "The request property is missing attributes"});
     }
     else{
-        const ourLodging = lcont.get_lodging_by_id(req.params.id)
+        const ourLodging = lcont.get_lodging_by_id(req.params.id, req.user.sub)
         .then((lodging) => {
             if(!lodging.length){
                 throw "No matching lodging"
             }
-            return lcont.post_lodging(req.body.name, req.body.type, req.body.length, req.params.id)
+            return lcont.post_lodging(req.body.name, req.body.type, req.body.length, req.user.sub, req.params.id)
         })
-        .then(result => {return lcont.get_lodging_by_id(req.params.id)})
+        .then(result => {return lcont.get_lodging_by_id(req.params.id, req.user.sub)})
         .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
         .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
     }
@@ -171,12 +168,12 @@ router.put('/:id', function(req, res){
  * Description: Endpoint for partially editing a lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.patch('/:id', function(req, res){
+router.patch('/:id', checkJwt, function(req, res){
     if(!('name' in req.body) && !('type' in req.body) & !('size' in req.body)){
         res.status(400).send({"Error": "The request property must have at least one attribute"});
     }
     else{
-        const ourlodging = lcont.get_lodging_by_id(req.params.id)
+        const ourlodging = lcont.get_lodging_by_id(req.params.id, req.user.sub)
         .then((lodging) => {
             if(!lodging.length){
                 throw "No matching lodging"
@@ -186,7 +183,7 @@ router.patch('/:id', function(req, res){
             let length = req.body.length ? req.body.length : lodging[0].length
             return lcont.post_lodging(name, type, length, req.params.id)
         })
-        .then(result => {return lcont.get_lodging_by_id(req.params.id)})
+        .then(result => {return lcont.get_lodging_by_id(req.params.id, req.user.sub)})
         .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
         .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
     }
@@ -196,8 +193,8 @@ router.patch('/:id', function(req, res){
  * Description: Endpoint for deleting a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.delete('/:id', function(req, res){
-    lcont.get_lodging_by_id(req.params.id)
+router.delete('/:id', checkJwt, function(req, res){
+    lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then(lodging => {
         if(!lodging.length){
             throw "No matching lodging"

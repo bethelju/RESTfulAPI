@@ -10,7 +10,7 @@ const datastore = ds.datastore;
  * Description: Put a lodging in the database or update an existing one and return the key
  * Parameter: Lodging name, type, size
  ****************************************************************************************/
-let post_lodging = function(name, type, size, id = null){
+let post_lodging = function(name, type, size, owner, id = null){
     let key;
     if(id){
         key = datastore.key([LODGING, parseInt(id,10)]);
@@ -18,7 +18,7 @@ let post_lodging = function(name, type, size, id = null){
     else{
         key = datastore.key(LODGING);
     }
-	const new_lodging = {"name": name, "type": type, "size": size, "guests": []};
+	const new_lodging = {"name": name, "type": type, "size": size, "owner":owner, "guests": []};
     return datastore.save({"key":key, "data":new_lodging})
     .then(() => {return key});
 }
@@ -29,7 +29,7 @@ let post_lodging = function(name, type, size, id = null){
  * Parameter: Guest ID
  ****************************************************************************************/
 let get_lodgings = function(req){
-    var q = datastore.createQuery(LODGING).limit(5);
+    var q = datastore.createQuery(LODGING).filter('owner', '=', req.user.sub).limit(5);
     const results = {};
     if(Object.keys(req.query).includes("cursor")){
         q = q.start(req.query.cursor);
@@ -59,9 +59,9 @@ let delete_lodging = function(id){
  * Description: Gets the specified lodging from the database and returns to the user
  * Parameter: Lodging ID
  ****************************************************************************************/
-let get_lodging_by_id = function(id){
+let get_lodging_by_id = function(id, owner){
     const key = datastore.key([LODGING, parseInt(id, 10)]);
-    const q = datastore.createQuery(LODGING).filter('__key__', '=', key);
+    const q = datastore.createQuery(LODGING).filter('__key__', '=', key).filter('owner', '=', owner);
     return datastore.runQuery(q).then( (entities) => {
         return entities[0].map(ds.fromDatastoreLodging);
     });
