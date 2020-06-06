@@ -7,11 +7,17 @@ const datastore = ds.datastore;
 
 /****************************************************************************************
  * Name: post_lodging
- * Description: Put a new empty lodging in the database and return the key
+ * Description: Put a lodging in the database or update an existing one and return the key
  * Parameter: Lodging name, type, size
  ****************************************************************************************/
-let post_lodging = function(name, type, size){
-    var key = datastore.key(LODGING);
+let post_lodging = function(name, type, size, id = null){
+    let key;
+    if(id){
+        key = datastore.key([LODGING, parseInt(id,10)]);
+    }
+    else{
+        key = datastore.key(LODGING);
+    }
 	const new_lodging = {"name": name, "type": type, "size": size, "guests": []};
     return datastore.save({"key":key, "data":new_lodging})
     .then(() => {return key});

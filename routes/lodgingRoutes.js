@@ -145,6 +145,53 @@ router.get('/', function(req, res){
 });
 
 /****************************************************************************************
+ * Description: Endpoint for completely editing a lodging
+ * Parameter: Lodging ID
+ ****************************************************************************************/
+router.put('/:id', function(req, res){
+    if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
+        res.status(400).send({"Error": "The request property is missing attributes"});
+    }
+    else{
+        const ourLodging = lcont.get_lodging_by_id(req.params.id)
+        .then((lodging) => {
+            if(!lodging.length){
+                throw "No matching lodging"
+            }
+            return lcont.post_lodging(req.body.name, req.body.type, req.body.length, req.params.id)
+        })
+        .then(result => {return lcont.get_lodging_by_id(req.params.id)})
+        .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
+        .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
+    }
+});
+
+/****************************************************************************************
+ * Description: Endpoint for partially editing a lodging
+ * Parameter: Lodging ID
+ ****************************************************************************************/
+router.patch('/:id', function(req, res){
+    if(!('name' in req.body) && !('type' in req.body) & !('size' in req.body)){
+        res.status(400).send({"Error": "The request property must have at least one attribute"});
+    }
+    else{
+        const ourlodging = lcont.get_lodging_by_id(req.params.id)
+        .then((lodging) => {
+            if(!lodging.length){
+                throw "No matching lodging"
+            }
+            let name = req.body.name ? req.body.name : lodging[0].name
+            let type = req.body.type ? req.body.type : lodging[0].type
+            let length = req.body.length ? req.body.length : lodging[0].length
+            return lcont.post_lodging(name, type, length, req.params.id)
+        })
+        .then(result => {return lcont.get_lodging_by_id(req.params.id)})
+        .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
+        .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
+    }
+});
+
+/****************************************************************************************
  * Description: Endpoint for deleting a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/

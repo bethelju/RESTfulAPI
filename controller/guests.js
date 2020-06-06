@@ -67,8 +67,14 @@ let put_guest = function(lid, gid){
  * Description: Posts a new guest to the database
  * Parameter: Lodging ID, Guest ID
  ****************************************************************************************/
-let post_guest = function(f_name, l_name, dietary_restrictions){
-    var key = datastore.key(GUEST);
+let post_guest = function(f_name, l_name, dietary_restrictions, id=null){
+    let key;
+    if(id){
+        key = datastore.key([GUEST, parseInt(id,10)]);
+    }
+    else{
+        key = datastore.key(GUEST);
+    }
     const new_guest = {"f_name": f_name, "l_name": l_name, "dietary_restrictions": dietary_restrictions,
         "carrier": null};
 	return datastore.save({"key":key, "data":new_guest}).then(() => {return key});
