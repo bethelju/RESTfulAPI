@@ -6,12 +6,20 @@ const gcont = require('../controller/guests')
 const checkJwt = require('../config/jwt')
 
 router.use(bodyParser.json());
+router.use(checkJwt)
+
+let checkAcceptHeader = function(req,res){
+    if (!req.accepts('json')) {
+        res.status(406).send({ error: 'Accept header must allow for json responses'});
+        return;
+    }
+}
 
 /****************************************************************************************
  * Description: Endpoint creates a particular lodging in the database
  * Parameter: JSON req body containing specifications for name, type, size of lodging
  ****************************************************************************************/
-router.post('/', checkJwt, function(req, res){
+router.post('/', checkAcceptHeader, function(req, res){
     if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
         res.status(400).send({"Error": "The requested property is missing attributes"});
     }
@@ -27,11 +35,11 @@ router.post('/', checkJwt, function(req, res){
  * Description: Returns all the guests stored at a specified lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.get('/:id/guests', checkJwt, function(req, res){
+router.get('/:id/guests', checkAcceptHeader, function(req, res){
     lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then( result => {
         if(!result.length){
-            throw "No matching lodging"
+            throw "No matching lodging for this user"
         }
         else{
             return lcont.get_lodging_guests(req, req.params.id)
@@ -42,7 +50,7 @@ router.get('/:id/guests', checkJwt, function(req, res){
     })
     .catch(err => {
         console.log(err)
-        res.status(404).send({"Error": "No lodging with this lodging_id exists"})
+        res.status(404).send({"Error": "No lodging with this lodging_id exists for this user"})
     })
 });
 
@@ -50,11 +58,11 @@ router.get('/:id/guests', checkJwt, function(req, res){
  * Description: Endpoint for returning a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.get('/:id', checkJwt, function(req, res){
+router.get('/:id', checkAcceptHeader, function(req, res){
     lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then((lodging) => {
         if(!lodging.length){
-            res.status(404).json({"Error": "No lodging with this lodging_id exists"})
+            res.status(404).json({"Error": "No lodging with this lodging_id exists for this user"})
         }
         else{
             res.status(200).json(lodging[0]);
@@ -66,11 +74,11 @@ router.get('/:id', checkJwt, function(req, res){
  * Description: Endpoint for deleting a specified guest from a specified lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.delete('/:lid/guests/:gid', checkJwt, function(req, res){
+router.delete('/:lid/guests/:gid', function(req, res){
     lcont.get_lodging_by_id(req.params.lid, req.user.sub)
     .then((lodging) => {
         if(!lodging.length){
-            throw "No matching lodging/guest"
+            throw "No matching lodging for this user"
         }
         else{
             return gcont.get_guest_by_id(req.params.gid)
@@ -78,7 +86,7 @@ router.delete('/:lid/guests/:gid', checkJwt, function(req, res){
     })
     .then((guest) => {
         if(!guest.length){
-            throw "No matching lodging/guest"
+            throw "No matching guest for this user"
         }
         else{
             return gcont.remove_lodging_link_from_guest(req.params.lid, req.params.gid)
@@ -99,7 +107,7 @@ router.delete('/:lid/guests/:gid', checkJwt, function(req, res){
  * Description: Endpoint for placing a guest in a particular lodging in the database
  * Parameter: Lodging ID, Guest ID
  ****************************************************************************************/
-router.put('/:lid/guests/:gid', checkJwt, function(req, res){
+router.put('/:lid/guests/:gid', function(req, res){
     lcont.get_lodging_by_id(req.params.lid, req.user.sub)
     .then((lodging) => {
         if(!lodging.length){
@@ -133,9 +141,9 @@ router.put('/:lid/guests/:gid', checkJwt, function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database
- * Parameter: Lodging ID
+ * Parameter: Request
  ****************************************************************************************/
-router.get('/', checkJwt, function(req, res){
+router.get('/', checkAcceptHeader, function(req, res){
     const Lodgings = lcont.get_lodgings(req)
 	.then( (lodgings) => {
         res.status(200).json(lodgings);
@@ -146,7 +154,7 @@ router.get('/', checkJwt, function(req, res){
  * Description: Endpoint for completely editing a lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.put('/:id', checkJwt, function(req, res){
+router.put('/:id', checkAcceptHeader, function(req, res){
     if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
         res.status(400).send({"Error": "The request property is missing attributes"});
     }
@@ -168,7 +176,7 @@ router.put('/:id', checkJwt, function(req, res){
  * Description: Endpoint for partially editing a lodging
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.patch('/:id', checkJwt, function(req, res){
+router.patch('/:id', checkAcceptHeader, function(req, res){
     if(!('name' in req.body) && !('type' in req.body) & !('size' in req.body)){
         res.status(400).send({"Error": "The request property must have at least one attribute"});
     }
@@ -193,7 +201,7 @@ router.patch('/:id', checkJwt, function(req, res){
  * Description: Endpoint for deleting a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/
-router.delete('/:id', checkJwt, function(req, res){
+router.delete('/:id', function(req, res){
     lcont.get_lodging_by_id(req.params.id, req.user.sub)
     .then(lodging => {
         if(!lodging.length){
@@ -212,5 +220,22 @@ router.delete('/:id', checkJwt, function(req, res){
         res.status(404).json({"Error": "No matching Lodging with that Lodging_id"})
     })
 });
+
+router.all('/:lid/guests/:gid', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['DELETE', 'PUT']})
+})
+
+
+router.all('/:id/guests', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['GET']})
+})
+
+router.all('/:id', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['GET', 'PUT', 'PATCH', 'DELETE']})
+})
+
+router.all('/', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['GET', 'POST']})
+})
 
 module.exports = router;

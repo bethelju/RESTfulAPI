@@ -5,7 +5,7 @@ const datastore = ds.datastore;
 /****************************************************************************************
  * Name: post_user
  * Description: Posts a new user to the database
- * Parameter: Lodging ID, Guest ID
+ * Parameters: Lodging ID, Guest ID
  ****************************************************************************************/
 let post_user = function(token_sub){
     key = datastore.key(USER);
@@ -16,20 +16,22 @@ let post_user = function(token_sub){
 /****************************************************************************************
  * Name: get_user
  * Description: Gets all users in the database
- * Parameter: None
+ * Parameters: None
  ****************************************************************************************/
 let get_users = function(){
     const q = datastore.createQuery(USER)
-    return datastore.runQuery(q)
+    return datastore.runQuery(q).then(entities => {
+        return entities[0].map((item) => {return ds.fromDatastoreUser(item)})
+    })
 }
 
 /****************************************************************************************
  * Name: get_user_by_sub
  * Description: Posts a new user to the database
- * Parameter: User token sub
+ * Parameters: User token sub
  ****************************************************************************************/
 let get_user_by_sub = function(token_sub){
-    const q = datastore.createQuery(USER).filter(sub, '=', token_sub)
+    const q = datastore.createQuery(USER).filter('sub', '=', token_sub)
     return datastore.runQuery(q)
 }
 

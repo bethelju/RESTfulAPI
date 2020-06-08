@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -6,9 +6,10 @@ const router = express.Router();
 const url = require('url');
 const request = require('request');
 const jwtDecode = require('jwt-decode');
+const ucont = require('../controller/users');
 
 router.get('/', function(req, res){
-    res.render('home')
+    res.render('home');
 })
 
 router.get('/authenticate', (req, res) => {
@@ -39,8 +40,21 @@ router.get('/oauth', (req, response) => {
     },function(err,res,body){
         console.log(JSON.parse(body))
         let id_token = JSON.parse(body).id_token
-        console.log(jwtDecode(id_token))
-        response.render('hello', {id_token: id_token})
+        let sub = jwtDecode(id_token).sub
+        ucont.get_user_by_sub(sub)
+        .then(results => {
+            console.log(results)
+            if(!results[0].length){
+                return ucont.post_user(sub)
+            }
+            else {
+                return
+            }
+        })
+        .then(() => {
+            response.render('hello', {id_token: id_token})
+        })
+        .catch((err) => {console.log(err)})
     });  
 })
 

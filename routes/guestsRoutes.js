@@ -6,11 +6,20 @@ const lcont = require('../controller/lodgings')
 router.use(bodyParser.json());
 const checkJwt = require('../config/jwt')
 
+let checkAcceptHeader = function(req,res,next){
+    if (!req.accepts('application/json')) {
+        res.status(406).send({ error: 'Accept header must allow for json responses'});
+    }
+    else{
+        next()
+    }
+}
+
 /****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database
  * Parameter: Request Protocol, Request URL Optional: Pagination Cursor
  ****************************************************************************************/
-router.get('/', function(req, res){
+router.get('/', checkAcceptHeader, function(req, res){
     const guests = gcont.get_guests(req)
 	.then( (guests) => {
         res.status(200).json(guests);
@@ -21,7 +30,7 @@ router.get('/', function(req, res){
  * Description: Endpoint for creating a guest in the database
  * Parameter: JSON body with 3 required parameters
  ****************************************************************************************/
-router.post('/', function(req, res){
+router.post('/', checkAcceptHeader, function(req, res){
     if(!('f_name' in req.body) || !('l_name' in req.body) || !('diet_restrictions' in req.body)){
         res.status(400).send({"Error": "The requested property is missing attributes"});
     }
@@ -37,7 +46,7 @@ router.post('/', function(req, res){
  * Description: Endpoint for returning a specified guest currently in the database
  * Parameter: Guest ID
  ****************************************************************************************/
-router.get('/:id', function(req, res){
+router.get('/:id', checkAcceptHeader, function(req, res){
     gcont.get_guest_by_id(req.params.id)
     .then((guest) => {
         if(!guest.length){
@@ -77,7 +86,7 @@ router.delete('/:id', function(req, res){
  * Description: Endpoint for completely editing a guest
  * Parameter: Guest ID
  ****************************************************************************************/
-router.put('/:id', function(req, res){
+router.put('/:id', checkAcceptHeader, function(req, res){
     if(!('l_name' in req.body) || !('f_name' in req.body) || !('diet_restrictions' in req.body)){
         res.status(400).send({"Error": "The request property is missing attributes"});
     }
@@ -99,7 +108,7 @@ router.put('/:id', function(req, res){
  * Description: Endpoint for partially editing a guest
  * Parameter: Guest ID
  ****************************************************************************************/
-router.patch('/:id', function(req, res){
+router.patch('/:id', checkAcceptHeader, function(req, res){
     if(!('l_name' in req.body) && !('f_name' in req.body) && !('diet_restrictions' in req.body)){
         res.status(400).send({"Error": "The request property is missing attributes"});
     }
@@ -119,5 +128,13 @@ router.patch('/:id', function(req, res){
         .catch(err => {res.status(404).send({"Error": "No Lodging with this id"})})
     }
 });
+
+router.all('/:id', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['GET', 'PATCH', 'PUT', 'DELETE']})
+})
+
+router.all('/', function(req,res){
+    res.status(405).json({"Accepted Requests" : ['GET', 'POST']})
+})
 
 module.exports = router;

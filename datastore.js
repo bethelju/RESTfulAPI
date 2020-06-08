@@ -1,16 +1,17 @@
 const {Datastore} = require('@google-cloud/datastore');
+require('dotenv').config();
 
 function fromDataStoreGuestInLodging(id){
     item = {}
     item.id = id
-    item.self = "http://localhost:8080/guests/" + id
+    item.self = `${process.env.ROOT_URL}` + "guests/" + id
     return item;
 }
 
 function fromDataStoreLodgingInGuest(id){
     item = {}
     item.id = id
-    item.self = "http://localhost:8080/lodgings/" + id
+    item.self = `${process.env.ROOT_URL}` + "lodgings/" + id
     return item;
 }
 
@@ -21,16 +22,21 @@ module.exports.fromDatastoreLodging = function fromDatastoreLodging(item){
     if(Array.isArray(item.Guests) && item.Guests.length){
         item.Guests = item.Guests.map(fromDataStoreGuestInLodging)
     }
-    item.self = "https://ourintermediateapi.wm.r.appspot.com/lodgings/" + item.id
+    item.self = `${process.env.ROOT_URL}` + "lodgings/" + item.id
     return item;
 }
+
+module.exports.fromDatastoreUser = function fromDatastoreUser(item){
+    item.id = item[Datastore.KEY].id;
+    return item;
+}
+
 module.exports.fromDataStoreGuest = function fromDataStoreGuest(item){
-    console.log("In datastore Guest")
     item.id = item[Datastore.KEY].id;
     if(item.carrier){
         item.carrier = fromDataStoreLodgingInGuest(item.carrier)
     }
-    item.self = "https://ourintermediateapi.wm.r.appspot.com/guests/" + item.id
+    item.self = `${process.env.ROOT_URL}` + "guests/" + item.id
     return item;
 }
 module.exports.fromDataStoreGuestInLodging = fromDataStoreGuestInLodging
