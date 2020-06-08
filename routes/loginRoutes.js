@@ -38,12 +38,10 @@ router.get('/oauth', (req, response) => {
             "client_secret": process.env.CLIENT_SECRET
         }
     },function(err,res,body){
-        console.log(JSON.parse(body))
         let id_token = JSON.parse(body).id_token
         let sub = jwtDecode(id_token).sub
         ucont.get_user_by_sub(sub)
         .then(results => {
-            console.log(results)
             if(!results[0].length){
                 return ucont.post_user(sub)
             }
