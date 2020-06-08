@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const router = express.Router();
 const url = require('url');
 const request = require('request');
+const jwtDecode = require('jwt-decode');
 
 router.get('/', function(req, res){
     res.render('home')
@@ -36,7 +37,9 @@ router.get('/oauth', (req, response) => {
             "client_secret": process.env.CLIENT_SECRET
         }
     },function(err,res,body){
+        console.log(JSON.parse(body))
         let id_token = JSON.parse(body).id_token
+        console.log(jwtDecode(id_token))
         response.render('hello', {id_token: id_token})
     });  
 })

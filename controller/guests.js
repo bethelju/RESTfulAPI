@@ -65,7 +65,7 @@ let put_guest = function(lid, gid){
 /****************************************************************************************
  * Name: post_guest
  * Description: Posts a new guest to the database
- * Parameter: Lodging ID, Guest ID
+ * Parameter: Guest Information (first name, last name, dietary restrictions, optional ID)
  ****************************************************************************************/
 let post_guest = function(f_name, l_name, dietary_restrictions, id=null){
     let key;
@@ -96,7 +96,7 @@ let delete_guest = function(id){
  * Parameter: Request
  ****************************************************************************************/
 let get_guests = function(req){
-    var q = datastore.createQuery(GUEST).limit(3);
+    var q = datastore.createQuery(GUEST).limit(5);
     const results = {};
     var prev;
     if(Object.keys(req.query).includes("cursor")){
