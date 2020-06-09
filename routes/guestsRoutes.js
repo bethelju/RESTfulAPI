@@ -16,6 +16,21 @@ let checkAcceptHeader = function(req,res,next){
 }
 
 /****************************************************************************************
+ * Description: Endpoint for returning a specified guest currently in the database
+ * Parameter: Guest ID
+ ****************************************************************************************/
+router.get('/:id', checkAcceptHeader, function(req, res){
+    gcont.get_guest_by_id(req.params.id)
+    .then((guest) => {
+        if(!guest.length){
+            res.status(404).json({"Error": "No guest with this guest_id exists"})
+        }
+        else{
+            res.status(200).json(guest[0]);
+        }
+    });
+});
+/****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database
  * Parameter: Request Protocol, Request URL Optional: Pagination Cursor
  ****************************************************************************************/
@@ -36,26 +51,10 @@ router.post('/', checkAcceptHeader, function(req, res){
     }
     else{
         gcont.post_guest(req.body.f_name, req.body.l_name, req.body.diet_restrictions)
-        .then( key => {
-            return lcont.get_lodging_by_id(key.id)
-        }).then( result => {res.status(201).send(result[0])} );
+        .then( key => { return gcont.get_guest_by_id(key.id)
+        }).then( result => {
+            res.status(201).send(result[0])} );
     }
-});
-
-/****************************************************************************************
- * Description: Endpoint for returning a specified guest currently in the database
- * Parameter: Guest ID
- ****************************************************************************************/
-router.get('/:id', checkAcceptHeader, function(req, res){
-    gcont.get_guest_by_id(req.params.id)
-    .then((guest) => {
-        if(!guest.length){
-            res.status(404).json({"Error": "No guest with this guest_id exists"})
-        }
-        else{
-            res.status(200).json(guest[0]);
-        }
-    });
 });
 
 /****************************************************************************************
@@ -99,7 +98,7 @@ router.put('/:id', checkAcceptHeader, function(req, res){
             return gcont.post_guest(req.body.f_name, req.body.l_name, req.body.diet_restrictions, req.params.id)
         })
         .then(result => {return gcont.get_guest_by_id(req.params.id)})
-        .then(modifiedGuest => {res.status(200).send(modifiedGuest)})
+        .then(modifiedGuest => {res.status(200).send(modifiedGuest[0])})
         .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
     }
 });
@@ -124,7 +123,7 @@ router.patch('/:id', checkAcceptHeader, function(req, res){
             return gcont.post_guest(f_name, l_name, diet_restrictions, req.params.id)
         })
         .then(result => {return gcont.get_guest_by_id(req.params.id)})
-        .then(modifiedGuest => {res.status(200).send(modifiedGuest)})
+        .then(modifiedGuest => {res.status(200).send(modifiedGuest[0])})
         .catch(err => {res.status(404).send({"Error": "No Lodging with this id"})})
     }
 });

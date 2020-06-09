@@ -8,10 +8,12 @@ const checkJwt = require('../config/jwt')
 router.use(bodyParser.json());
 router.use(checkJwt)
 
-let checkAcceptHeader = function(req,res){
+let checkAcceptHeader = function(req,res, next){
     if (!req.accepts('json')) {
         res.status(406).send({ error: 'Accept header must allow for json responses'});
-        return;
+    }
+    else{
+        next()
     }
 }
 
@@ -24,6 +26,7 @@ router.post('/', checkAcceptHeader, function(req, res){
         res.status(400).send({"Error": "The requested property is missing attributes"});
     }
     else{
+        console.log("Got here!")
         lcont.post_lodging(req.body.name, req.body.type, req.body.size, req.user.sub)
         .then( key => {
             return lcont.get_lodging_by_id(key.id, req.user.sub)
@@ -164,10 +167,10 @@ router.put('/:id', checkAcceptHeader, function(req, res){
             if(!lodging.length){
                 throw "No matching lodging"
             }
-            return lcont.post_lodging(req.body.name, req.body.type, req.body.length, req.user.sub, req.params.id)
+            return lcont.post_lodging(req.body.name, req.body.type, req.body.size, req.user.sub, req.params.id)
         })
         .then(result => {return lcont.get_lodging_by_id(req.params.id, req.user.sub)})
-        .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
+        .then(modifiedLodging => {res.status(200).send(modifiedLodging[0])})
         .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
     }
 });
@@ -188,11 +191,11 @@ router.patch('/:id', checkAcceptHeader, function(req, res){
             }
             let name = req.body.name ? req.body.name : lodging[0].name
             let type = req.body.type ? req.body.type : lodging[0].type
-            let length = req.body.length ? req.body.length : lodging[0].length
-            return lcont.post_lodging(name, type, length, req.params.id)
+            let size = req.body.size ? req.body.size : lodging[0].size
+            return lcont.post_lodging(name, type, size, req.user.sub, req.params.id)
         })
         .then(result => {return lcont.get_lodging_by_id(req.params.id, req.user.sub)})
-        .then(modifiedLodging => {res.status(200).send(modifiedLodging)})
+        .then(modifiedLodging => {res.status(200).send(modifiedLodging[0])})
         .catch(err => res.status(404).send({"Error": "No Lodging with this id"}))
     }
 });
