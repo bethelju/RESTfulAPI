@@ -1,0 +1,1393 @@
+{
+	"info": {
+		"_postman_id": "a9a21988-631c-4771-a8c2-205f5ba7b4a5",
+		"name": "CloudDevFinalProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Resource Protection Tests",
+			"item": [
+				{
+					"name": "Get a Lodging Invalid Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "23bdca41-4fc9-4e03-a94f-4b35b27e461c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "fadsfdsfasdsafsdfasdasfdsafadfs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						},
+						"description": "Get a specific lodging from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Get a Lodging Missing Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b0e3dece-7eba-4965-a574-a5c4f4c56425",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						},
+						"description": "Get a specific lodging from the database"
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a Lodging (Completely) Invalid Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "fadsfdsfasdsafsdfasdasfdsafadfs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Great Bear Jr.\",\n\t\"type\": \"Mansion\",\n\t\"size\": 400\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a Lodging (Completely) Missing Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Great Bear Jr.\",\n\t\"type\": \"Mansion\",\n\t\"size\": 400\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a Lodging (Partially) Invalid Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "dasfdsafdsfadsf",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"type\": \"Cabin\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit a Lodging (Partially) Missing Token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"type\": \"Cabin\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Lodging Invalid Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0c036f9c-c6b6-4609-add1-b1ac6741a8bb",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "dsadffadsfasdfasdfasd",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						},
+						"description": "Delete a specified lodging from the database:\r\nTakes a lodging id"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a Lodging Missing Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "35e4dada-14d2-43d6-97e7-710603aace9c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/lodgings/{{lodging_id}}",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"lodgings",
+								"{{lodging_id}}"
+							]
+						},
+						"description": "Delete a specified lodging from the database:\r\nTakes a lodging id"
+					},
+					"response": []
+				}
+			],
+			"description": "Testing whether invalid and or missing tokens for protected resource (lodging) fail with 401 errors",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c12d1786-cfc2-467d-bd24-7d105d17c3cc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ebe5a637-4e1b-48e3-a6a0-5f41a1278841",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
+							"});"
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "POST to User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8f4ff6dc-0b65-4012-84a2-2f7a848972dd",
+						"exec": [
+							"pm.test(\"Status code is 405\", function () {\r",
+							"    pm.response.to.have.status(405);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Attempt to POST to users, an endpoint that doesn't accept this HTTP verb"
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Guest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3581cae-bc77-467b-9445-b114d9a73f34",
+						"exec": [
+							"pm.environment.set(\"guest_id\", pm.response.json().id);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"f_name\": \"Mortimer\",\n\t\"l_name\": \"Wong\",\n\t\"diet_restrictions\": \"True\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/guests",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Guest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8c465cba-8b3e-46f3-b046-3cf5dc007447",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests",
+						"{{guest_id}}"
+					]
+				},
+				"description": "Gets a specified Guest from the database\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "GET Guest w/o JSON Accept Header",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9fe396a2-ae37-4e17-a8b8-59737491e369",
+						"exec": [
+							"pm.test(\"Status code is 406\", function () {\r",
+							"    pm.response.to.have.status(406);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "text/html"
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/guests",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests"
+					]
+				},
+				"description": "Attempt to POST to users, an endpoint that doesn't accept this HTTP verb"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Guest (Completely)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e0404ddf-7899-4e5e-92ba-6e44256ed317",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First name changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.f_name).to.eql(\"Charlene\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Last name changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.l_name).to.eql(\"Kim\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"DietRestrictions has changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.dietary_restrictions).to.eql(\"False\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"f_name\": \"Charlene\",\n\t\"l_name\": \"Kim\",\n\t\"diet_restrictions\": \"False\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests",
+						"{{guest_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Guest (Partially)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "502b8202-ed39-410d-a606-6d4fc1b89078",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First name has changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.f_name).to.eql(\"Charlie\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"f_name\": \"Charlie\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests",
+						"{{guest_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Guests",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a60d33fc-8a52-4e4c-b097-64443f26dc21",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Guests list not empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.length).to.be.above(0);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{URL}}/guests",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f41c65ee-7658-4e96-bf86-d070bb567aba",
+						"exec": [
+							"pm.environment.set(\"lodging_id\", pm.response.json().id);\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Great Bear\",\n\t\"type\": \"Cabin\",\n\t\"size\": 800\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/lodgings",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings"
+					]
+				},
+				"description": "Creates a lodging with name, type, and size attributes"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cd0747c9-1bdc-4514-96be-36f72fb94a40",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				},
+				"description": "Get a specific lodging from the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Get a Lodging without Correct Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "74a98302-4e28-456c-b1cf-0fca5b85911a",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				},
+				"description": "Attempt to get a lodging with a valid token that belongs to another user"
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Lodging (Completely)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "993b876c-cdfa-458a-bef2-30031e303b19",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"First name changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"Great Bear Jr.\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Type changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.type).to.eql(\"Mansion\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Size has changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.size).to.eql(400);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Great Bear Jr.\",\n\t\"type\": \"Mansion\",\n\t\"size\": 400\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Lodging (Completely) Without Correct Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f74ef861-7571-410f-856a-bba27bcd4ef3",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\": \"Great Bear Jr.\",\n\t\"type\": \"Mansion\",\n\t\"size\": 400\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Lodging (Partially)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "af857e40-bf76-4102-82fb-a7db8765699f",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Type changed\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.type).to.eql(\"Cabin\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"Cabin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit a Lodging (Partially) Without Correct Token Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2853c97e-75f5-40e6-88a8-880921e59da9",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"Cabin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Lodgings",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f36eeea-9b1c-49b2-9c8d-ac47a263ed87",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Lodgings list not empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.results.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings"
+					]
+				},
+				"description": "Get every lodging in the database"
+			},
+			"response": []
+		},
+		{
+			"name": "Place Guest in Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d74d2869-1b74-4bcd-a528-4701e573ef02",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}",
+						"guests",
+						"{{guest_id}}"
+					]
+				},
+				"description": "Places a Guest in a specified Lodging"
+			},
+			"response": []
+		},
+		{
+			"name": "Place Guest in Lodging Again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87de23e5-c19b-43d0-9a48-a9ad062a05c5",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {\r",
+							"    pm.response.to.have.status(403);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}",
+						"guests",
+						"{{guest_id}}"
+					]
+				},
+				"description": "Places a Guest in a specified Lodging"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Guests for a Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "83e42b15-8ff1-47d2-940c-820819eeaad8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Guest list not empty\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.be.above(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}/guests",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}",
+						"guests"
+					]
+				},
+				"description": "Get all the Guests for a specified Lodging"
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Guest from a Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d82d0915-7551-4b8a-8570-ba2ac90af549",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}",
+						"guests",
+						"{{guest_id}}"
+					]
+				},
+				"description": "Places a Guest in a specified Lodging"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Guest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5f9988f5-c693-48a0-9baa-d86409104abc",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/guests/{{guest_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"guests",
+						"{{guest_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Lodging Copy without Correct Token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ba8701e5-bdc2-4ee0-bf3e-8469e8f3bb67",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt2}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				},
+				"description": "Delete a specified lodging from the database:\r\nTakes a lodging id"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Lodging",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "53b7667f-1ed3-4179-9348-a27731d2cd64",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt1}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/lodgings/{{lodging_id}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"lodgings",
+						"{{lodging_id}}"
+					]
+				},
+				"description": "Delete a specified lodging from the database:\r\nTakes a lodging id"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL}}/users",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"users"
+					]
+				},
+				"description": "Get all the users currently registered"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
