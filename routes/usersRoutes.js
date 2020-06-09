@@ -4,7 +4,7 @@ const ucont = require('../controller/users');
 
 /****************************************************************************************
  * Description: Endpoint for returning all users currently in the database
- * Parameter: Request
+ * Parameters: None
  ****************************************************************************************/
 router.get('/', function(req, res){
     const Users = ucont.get_users()
@@ -13,6 +13,9 @@ router.get('/', function(req, res){
     });
 });
 
+/*****************************************************************************************
+ * Description: Below route handles all non-valid HTTP verb requests to root user endpoint
+ ****************************************************************************************/
 router.all('/', function(req, res){
     res.status(405).json({"Accepted Requests" : ['GET']})
 })

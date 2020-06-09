@@ -4,18 +4,10 @@ const router = express.Router();
 const lcont = require('../controller/lodgings')
 const gcont = require('../controller/guests')
 const checkJwt = require('../config/jwt')
+const checkAcceptHeader = require('../utils/helpers')
 
 router.use(bodyParser.json());
 router.use(checkJwt)
-
-let checkAcceptHeader = function(req,res, next){
-    if (!req.accepts('json')) {
-        res.status(406).send({ error: 'Accept header must allow for json responses'});
-    }
-    else{
-        next()
-    }
-}
 
 /****************************************************************************************
  * Description: Endpoint creates a particular lodging in the database
@@ -73,8 +65,8 @@ router.get('/:id', checkAcceptHeader, function(req, res){
 });
 
 /****************************************************************************************
- * Description: Endpoint for deleting a specified guest from a specified lodging
- * Parameter: Lodging ID
+ * Description: Endpoint for removing a specified guest from a specified lodging
+ * Parameter: Lodging ID, Guest ID
  ****************************************************************************************/
 router.delete('/:lid/guests/:gid', function(req, res){
     lcont.get_lodging_by_id(req.params.lid, req.user.sub)
@@ -143,7 +135,7 @@ router.put('/:lid/guests/:gid', function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database
- * Parameter: Request
+ * Parameter: Pagination Cursor (Optional)
  ****************************************************************************************/
 router.get('/', checkAcceptHeader, function(req, res){
     const Lodgings = lcont.get_lodgings(req)
@@ -154,7 +146,7 @@ router.get('/', checkAcceptHeader, function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for completely editing a lodging
- * Parameter: Lodging ID
+ * Parameters: Lodging ID, JSON body with name, type, and size properties
  ****************************************************************************************/
 router.put('/:id', checkAcceptHeader, function(req, res){
     if(!('name' in req.body) || !('type' in req.body) || !('size' in req.body)){
@@ -176,7 +168,7 @@ router.put('/:id', checkAcceptHeader, function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for partially editing a lodging
- * Parameter: Lodging ID
+ * Parameters: Lodging ID, JSON body with at least name, type, or size property
  ****************************************************************************************/
 router.patch('/:id', checkAcceptHeader, function(req, res){
     if(!('name' in req.body) && !('type' in req.body) & !('size' in req.body)){
@@ -199,7 +191,7 @@ router.patch('/:id', checkAcceptHeader, function(req, res){
     }
 });
 
-/****************************************************************************************
+/*****************************************************************************************
  * Description: Endpoint for deleting a specified lodging from the database
  * Parameter: Lodging ID
  ****************************************************************************************/
@@ -223,10 +215,12 @@ router.delete('/:id', function(req, res){
     })
 });
 
+/****************************************************************************************
+ * Description: Below routes handle all non-valid HTTP verb requests to valid endpoints
+ ****************************************************************************************/
 router.all('/:lid/guests/:gid', function(req,res){
     res.status(405).json({"Accepted Requests" : ['DELETE', 'PUT']})
 })
-
 
 router.all('/:id/guests', function(req,res){
     res.status(405).json({"Accepted Requests" : ['GET']})

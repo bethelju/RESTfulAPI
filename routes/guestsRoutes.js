@@ -2,18 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const router = express.Router();
 const gcont = require('../controller/guests')
-const lcont = require('../controller/lodgings')
 router.use(bodyParser.json());
-const checkJwt = require('../config/jwt')
-
-let checkAcceptHeader = function(req,res,next){
-    if (!req.accepts('application/json')) {
-        res.status(406).send({ error: 'Accept header must allow for json responses'});
-    }
-    else{
-        next()
-    }
-}
+const checkAcceptHeader = require('../utils/helpers')
 
 /****************************************************************************************
  * Description: Endpoint for returning a specified guest currently in the database
@@ -30,9 +20,10 @@ router.get('/:id', checkAcceptHeader, function(req, res){
         }
     });
 });
+
 /****************************************************************************************
  * Description: Endpoint for returning all lodgings currently in the database
- * Parameter: Request Protocol, Request URL Optional: Pagination Cursor
+ * Parameter: Pagination Cursor (Optional)
  ****************************************************************************************/
 router.get('/', checkAcceptHeader, function(req, res){
     const guests = gcont.get_guests(req)
@@ -83,7 +74,7 @@ router.delete('/:id', function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for completely editing a guest
- * Parameter: Guest ID
+ * Parameter: Guest ID, JSON body with l_name, f_name, and diet_restrictions properties
  ****************************************************************************************/
 router.put('/:id', checkAcceptHeader, function(req, res){
     if(!('l_name' in req.body) || !('f_name' in req.body) || !('diet_restrictions' in req.body)){
@@ -105,7 +96,8 @@ router.put('/:id', checkAcceptHeader, function(req, res){
 
 /****************************************************************************************
  * Description: Endpoint for partially editing a guest
- * Parameter: Guest ID
+ * Parameter: Guest ID, JSON body with at least f_name, l_name, or diet_restrictions 
+ *            property
  ****************************************************************************************/
 router.patch('/:id', checkAcceptHeader, function(req, res){
     if(!('l_name' in req.body) && !('f_name' in req.body) && !('diet_restrictions' in req.body)){
@@ -128,6 +120,9 @@ router.patch('/:id', checkAcceptHeader, function(req, res){
     }
 });
 
+/*****************************************************************************************
+ * Description: Below route handles all non-valid HTTP verb requests to root user endpoint
+ ****************************************************************************************/
 router.all('/:id', function(req,res){
     res.status(405).json({"Accepted Requests" : ['GET', 'PATCH', 'PUT', 'DELETE']})
 })
