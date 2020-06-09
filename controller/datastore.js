@@ -37,8 +37,8 @@ let fromDataStoreGuest = function fromDataStoreGuest(item){
     item.self = `${process.env.ROOT_URL}` + "guests/" + item.id
     return item;
 }
+
 let getUserKey = function getUserKey(item){
-    console.log(item)
     return item[Datastore.KEY].id
 }
 

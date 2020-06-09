@@ -42,21 +42,17 @@ let get_guest_by_id = function(id){
  * Parameter: Lodging ID, Guest ID
  ****************************************************************************************/
 let put_guest = function(lid, gid){
-    console.log("2.1")
     const l_key = datastore.key([LODGING, parseInt(lid,10)]);
     const g_key = datastore.key([GUEST, parseInt(gid,10)]);
     return datastore.get(l_key)
     .then( (lodging) => {
-        console.log("2.2")
         lodging[0].guests.push(gid);
         return datastore.save({"key":l_key, "data":lodging[0]});
     })
     .then(() => {
-        console.log("2.3")
         return datastore.get(g_key)
     })
     .then((guest) => {
-        console.log("2.4")
         guest[0].carrier = lid
         return datastore.save({"key":g_key, "data":guest[0]});
     })
@@ -104,7 +100,6 @@ let get_guests = function(req){
         q = q.start(req.query.cursor);
     }
 	return datastore.runQuery(q).then( (entities) => {
-            console.log(entities[0])
             results.results = entities[0].map(ds.fromDataStoreGuest);
             if(typeof prev !== 'undefined'){
                 results.previous = prev;

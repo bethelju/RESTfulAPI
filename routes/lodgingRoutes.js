@@ -26,7 +26,6 @@ router.post('/', checkAcceptHeader, function(req, res){
         res.status(400).send({"Error": "The requested property is missing attributes"});
     }
     else{
-        console.log("Got here!")
         lcont.post_lodging(req.body.name, req.body.type, req.body.size, req.user.sub)
         .then( key => {
             return lcont.get_lodging_by_id(key.id, req.user.sub)
