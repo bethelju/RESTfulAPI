@@ -1,4 +1,4 @@
-const ds = require('../datastore');
+const ds = require('./datastore');
 const USER = "User";
 const datastore = ds.datastore;
 
@@ -8,7 +8,7 @@ const datastore = ds.datastore;
  * Parameters: Lodging ID, Guest ID
  ****************************************************************************************/
 let post_user = function(token_sub){
-    key = datastore.key(USER);
+    let key = datastore.key(USER);
     const new_user = {"sub": token_sub}
     return datastore.save({"key":key, "data": new_user})
 }

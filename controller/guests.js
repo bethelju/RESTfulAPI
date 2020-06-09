@@ -1,6 +1,6 @@
 const GUEST = "Guest";
 const LODGING = "Lodging";
-const ds = require('../datastore');
+const ds = require('./datastore');
 
 const datastore = ds.datastore;
 

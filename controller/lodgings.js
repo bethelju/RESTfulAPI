@@ -1,7 +1,7 @@
 const LODGING = "Lodging";
 const GUEST = "Guest";
-const ds = require('../datastore');
-const gcont = require('../controller/guests')
+const ds = require('./datastore');
+const gcont = require('./guests')
 const datastore = ds.datastore;
 
 
@@ -59,9 +59,12 @@ let delete_lodging = function(id){
  * Description: Gets the specified lodging from the database and returns to the user
  * Parameter: Lodging ID
  ****************************************************************************************/
-let get_lodging_by_id = function(id, owner){
+let get_lodging_by_id = function(id, owner = null){
     const key = datastore.key([LODGING, parseInt(id, 10)]);
-    const q = datastore.createQuery(LODGING).filter('__key__', '=', key).filter('owner', '=', owner);
+    const q = datastore.createQuery(LODGING).filter('__key__', '=', key);
+    if(owner) {
+        q.filter('owner', '=', owner);
+    }
     return datastore.runQuery(q).then( (entities) => {
         return entities[0].map(ds.fromDatastoreLodging);
     });
