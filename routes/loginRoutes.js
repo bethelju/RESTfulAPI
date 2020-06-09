@@ -1,7 +1,6 @@
 require('dotenv').config();
 
 const express = require('express');
-const bodyParser = require('body-parser');
 const router = express.Router();
 const url = require('url');
 const request = require('request');
@@ -39,20 +38,24 @@ router.get('/oauth', (req, response) => {
         }
     },function(err,res,body){
         let id_token = JSON.parse(body).id_token
-        let sub = jwtDecode(id_token).sub
-        ucont.get_user_by_sub(sub)
-        .then(results => {
-            if(!results[0].length){
-                return ucont.post_user(sub)
-            }
-            else {
-                return
-            }
-        })
-        .then(() => {
+        try{
+            let sub = jwtDecode(id_token).sub
+            ucont.get_user_by_sub(sub)
+            .then(results => {
+                if(!results[0].length){
+                    return ucont.post_user(sub)
+                }
+                else {
+                    return
+                }
+            })
+        }
+        catch(err){
+            id_token = "The token could not be parsed"
+        }
+        finally{
             response.render('hello', {id_token: id_token})
-        })
-        .catch((err) => {console.log(err)})
+        }
     });  
 })
 
