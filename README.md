@@ -17,7 +17,7 @@ __Guests__ have the following attributes:
 * Dietary restrictions (dietary_restrictions)
 * Lodging resided in (carrier)  
 
-The API allows you to do the following actions with __Guests__:  
+The API allows you to perform the following actions with __Guests__:  
 * Create a Guest (POST /guests)
 * Get a Guest (GET /guests/:id)
 * Get all Guests (GET /guests)  
@@ -36,7 +36,7 @@ __Lodgings__ have the following attributes:
 * Size of Lodging (size)  
 * Guests Array (guests)  
 
-The API allows you to do the following actions with __Lodgings__:  
+The API allows you to perform the following actions with __Lodgings__:  
 * Create a Lodging (POST /lodgings)
 * Get a Lodging (GET /lodgings/:id)
 * Get all Lodgings (GET /lodgings)  
