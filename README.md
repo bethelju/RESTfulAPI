@@ -1,5 +1,5 @@
 # RESTfulAPI
-This is a RESTful API that utilizes GCP App Engine and Datastore to model relationships between lodgings and guests. 
+This is a RESTful API that utilizes GCP App Engine and Datastore to model relationships between __Lodgings__ and __Guests__. 
 The entities hold the following relationships:
 * Lodgings can hold multiple guests 
 * Lodgings are owned by particular users
