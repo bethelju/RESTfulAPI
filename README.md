@@ -17,6 +17,14 @@ Guests have the following attributes:
 * Dietary restrictions (dietary_restrictions)
 * Lodging resided in (carrier)  
 
+The API allows you to do the following actions with guests:  
+* Create a Guest (POST /guests)
+* Get a Guest (GET /guests/:id)
+* Get all Guests (GET /guests)  
+* Partially edit a Guest (PATCH /guests/:id)  
+* Completely edit a Guest (PUT /guests/:id)    
+* Delete a Guest  (DELETE /guests/:id)  
+
 Below is a sample guest:    
 ![Guest Image](https://imgur.com/f1bZZZA.png)  
 
@@ -27,6 +35,16 @@ Lodgings have the following attributes:
 * User Owner (owner)
 * Size of Lodging (size)  
 * Guests Array (guests)  
+
+The API allows you to do the following actions with lodgings:  
+* Create a Lodging (POST /lodgings)
+* Get a Lodging (GET /lodgings/:id)
+* Get all Lodgings (GET /lodgings)  
+* Partially edit a Lodging (PATCH /lodgings/:id)  
+* Completely edit a Lodging (PUT /lodgings/:id)    
+* Delete a Guest (DELETE /lodgings/:id)
+* Place a Guest in a Lodging (PUT /lodgings/:id/guests/:id)
+* Remove a Guest from a Lodging (DELETE /lodgings/:id/guests/:id)
 
 Below is a sample lodging:  
 ![Lodging Image](https://imgur.com/ob5N0UJ.png)
