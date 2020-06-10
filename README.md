@@ -10,14 +10,14 @@ The app is located on GCP at the following root URL: https://restfulapi-278600.w
 
 The login page is located at: https://restfulapi-278600.wl.r.appspot.com/login
 ### Entities
-Guests have the following attributes:
+__Guests__ have the following attributes:
 * ID assigned by Cloud Datastore
 * First name (f_name)
 * Last name (l_name)
 * Dietary restrictions (dietary_restrictions)
 * Lodging resided in (carrier)  
 
-The API allows you to do the following actions with guests:  
+The API allows you to do the following actions with __Guests__:  
 * Create a Guest (POST /guests)
 * Get a Guest (GET /guests/:id)
 * Get all Guests (GET /guests)  
@@ -28,7 +28,7 @@ The API allows you to do the following actions with guests:
 Below is a sample guest:    
 ![Guest Image](https://imgur.com/f1bZZZA.png)  
 
-Lodgings have the following attributes:
+__Lodgings__ have the following attributes:
 * ID assigned by Cloud Datastore  
 * Lodging name (name)  
 * Type of Lodging (type)
@@ -36,7 +36,7 @@ Lodgings have the following attributes:
 * Size of Lodging (size)  
 * Guests Array (guests)  
 
-The API allows you to do the following actions with lodgings:  
+The API allows you to do the following actions with __Lodgings__:  
 * Create a Lodging (POST /lodgings)
 * Get a Lodging (GET /lodgings/:id)
 * Get all Lodgings (GET /lodgings)  
