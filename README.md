@@ -15,9 +15,22 @@ Guests have the following attributes:
 * First name (f_name)
 * Last name (l_name)
 * Dietary restrictions (dietary_restrictions)
-* Lodging resided in (carrier)   
+* Lodging resided in (carrier)  
+
 Below is a sample guest:    
 ![Guest Image](https://imgur.com/f1bZZZA.png)  
+
+Lodgings have the following attributes:
+* ID assigned by Cloud Datastore  
+* Lodging name (name)  
+* Type of Lodging (type)
+* User Owner (owner)
+* Size of Lodging (size)  
+* Guests Array (guests)  
+
+Below is a sample lodging:  
+![Lodging Image](https://imgur.com/ob5N0UJ.png)
+
 ### Usage
 To use, follow the OAuth pathway to retrieve a token for use in your authorization header when making calls to the API
 
