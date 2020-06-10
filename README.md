@@ -52,6 +52,6 @@ Below is a sample lodging:
 ### Usage
 To use, follow the OAuth pathway to retrieve a token for use in your authorization header when making calls to the API
 
-Visit the wiki for a more thorough documentation on how to use!
+Visit the [wiki](https://github.com/bethelju/RESTfulAPI/wiki) for a more thorough documentation on how to use!
 
 Feel free to use the Postman tests in the tests folder for examples of API calls
