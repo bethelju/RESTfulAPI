@@ -9,6 +9,16 @@ The entities hold the following relationships:
 The app is located on GCP at the following root URL: https://restfulapi-278600.wl.r.appspot.com
 
 The login page is located at: https://restfulapi-278600.wl.r.appspot.com/login
+### Entities
+Guests have the following attributes:
+* ID assigned by Cloud Datastore
+* First name (f_name)
+* Last name (l_name)
+* Dietary restrictions (dietary_restrictions)
+* Lodging resided In (carrier)   
+
+Below is a sample guest:  
+![Guest Image](https://imgur.com/f1bZZZA)                   `
 
 ### Usage
 To use, follow the OAuth pathway to retrieve a token for use in your authorization header when making calls to the API
