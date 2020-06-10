@@ -7,10 +7,16 @@ const request = require('request');
 const jwtDecode = require('jwt-decode');
 const ucont = require('../controller/users');
 
+/****************************************************************************************
+ * Description: Endpoint for the homepage
+ ****************************************************************************************/
 router.get('/', function(req, res){
     res.render('home');
 })
 
+/****************************************************************************************
+ * Description: Endpoint for the the redirect needed for third party authentication
+ ****************************************************************************************/
 router.get('/authenticate', (req, res) => {
     let responseType = "response_type=code&"
     let clientID = `client_id=${process.env.CLIENT_ID}&`
@@ -21,6 +27,9 @@ router.get('/authenticate', (req, res) => {
     res.redirect("https://accounts.google.com/o/oauth2/v2/auth?" + responseType + clientID + redirect_uri + secret + scope)
 })
 
+/****************************************************************************************
+ * Description: Landing endpoint for google oauth and token retrieval
+ ****************************************************************************************/
 router.get('/oauth', (req, response) => {
     const queryObject = url.parse(req.url,true).query;
     if("error" in queryObject){
