@@ -15,11 +15,9 @@ Guests have the following attributes:
 * First name (f_name)
 * Last name (l_name)
 * Dietary restrictions (dietary_restrictions)
-* Lodging resided In (carrier)   
-
-Below is a sample guest:  
-![Guest Image](https://imgur.com/f1bZZZA)                   `
-
+* Lodging resided in (carrier)   
+Below is a sample guest:    
+![Guest Image](https://imgur.com/f1bZZZA.png)  
 ### Usage
 To use, follow the OAuth pathway to retrieve a token for use in your authorization header when making calls to the API
 
