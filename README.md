@@ -6,8 +6,6 @@ The entities hold the following relationships:
 * Users are identified by JWT's assigned using Google's third party OAuth system
 * A user can only view and manipulate the lodgings that (s)he owns 
 
-The app is located on GCP at the following root URL: https://restfulapi-278600.wl.r.appspot.com
-
 The login page is located at: https://restfulapi-278600.wl.r.appspot.com/login
 ### Entities
 __Guests__ have the following attributes:
