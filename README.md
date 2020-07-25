@@ -1,5 +1,5 @@
 # RESTfulAPI
-This is a RESTful nodeJS API that utilizes GCP App Engine and Datastore to model relationships between __Lodgings__ and __Guests__. 
+This is a RESTful nodeJS API that utilizes Google Cloud Platform's App Engine and Datastore to model relationships between __Lodgings__ and __Guests__. 
 The entities hold the following relationships:
 * Lodgings can hold multiple guests 
 * Lodgings are owned by particular users
